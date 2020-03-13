@@ -15,9 +15,13 @@ export class Photo {
     id: number;
     
     @Column()
+    user_id: number;
+    
+    @Column()
     url: string;
     
     @ManyToOne(type => User, user => user.photos)
+    @JoinColumn({ name: 'user_id' })
     user: User;
     
 }
@@ -36,7 +40,7 @@ export class User {
     @Column()
     name: string;
     
-    @OneToMany(type => Photo, photo => photo.user)
+    @OneToMany(type => Photo, photo => photo.user, {cascade: ['insert', 'update']})
     photos: Photo[];
     
 }
